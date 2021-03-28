@@ -30,15 +30,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.backgroundColor = UIColor.white
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.black.cgColor
-        self.view.addSubview(textView)
+        self.textView.backgroundColor = UIColor.white
+        self.textView.layer.borderWidth = 1
+        self.textView.layer.borderColor = UIColor.black.cgColor
+        self.view.addSubview(self.textView)
         
-        startButton.setTitle("Start", for: .normal)
-        startButton.setTitleColor(UIColor.black, for: .normal)
-        startButton.addTarget(self, action: #selector(self.touchUpStartButton), for: .touchUpInside)
-        self.view.addSubview(startButton)
+        self.startButton.setTitle("Start", for: .normal)
+        self.startButton.setTitleColor(UIColor.black, for: .normal)
+        self.startButton.addTarget(self, action: #selector(self.touchUpStartButton(_:)), for: .touchUpInside)
+        self.view.addSubview(self.startButton)
         
         SFSpeechRecognizer.requestAuthorization { (authStatus) in
         }
@@ -50,12 +50,13 @@ class ViewController: UIViewController {
         let width: CGFloat = self.view.frame.width
         let height: CGFloat = self.view.frame.height
         
-        textView.frame = CGRect(x: 10, y: 80, width: width - 20, height: height - 200)
-        startButton.frame = CGRect(x: width / 2 - 40, y: height - 100, width: 80, height: 80)
+        self.textView.frame = CGRect(x: 10, y: 80, width: width - 20, height: height - 200)
+        self.startButton.frame = CGRect(x: width / 2 - 40, y: height - 100, width: 80, height: 80)
     }
     
-    @objc private func touchUpStartButton() {
-        textView.text = ""
+    @objc private func touchUpStartButton(_ sender: UIButton) {
+        self.textView.text = ""
+        self.speechText = ""
         cropFile()
     }
     
@@ -64,7 +65,8 @@ class ViewController: UIViewController {
             let audioFileUrl = URL(fileURLWithPath : audioPath)
             do {
                 self.avAudioFile = try AVAudioFile(forReading: audioFileUrl)
-            }catch{
+            }catch let error{
+                print(error)
             }
             let recordTime = Double(self.avAudioFile.length) / self.avAudioFile.fileFormat.sampleRate
             let oneFileTime: Double = 60
