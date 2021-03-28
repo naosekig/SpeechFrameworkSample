@@ -62,5 +62,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>This permission is required to use voice analysis.</string>
 </dict>
 </plist>
